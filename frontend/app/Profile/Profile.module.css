@@ -1,0 +1,70 @@
+/* components/Profile.module.css */
+.profileContainer {
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid #e1e8ed;
+    background: white;
+  }
+  
+  .header {
+    position: relative;
+    height: 200px;
+  }
+  
+  .coverPhoto {
+    height: 150px;
+    background: #ccc;
+    width: 100%;
+  }
+  
+  .profilePic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid white;
+    position: absolute;
+    bottom: -60px;
+    left: 20px;
+    object-fit: cover;
+  }
+  
+  .userInfo {
+    padding: 20px;
+    padding-top: 60px;
+  }
+  
+  .nameSection {
+    margin-bottom: 15px;
+  }
+  
+  .username {
+    color: #657786;
+    display: block;
+    margin-top: 5px;
+  }
+  
+  .bio {
+    margin: 15px 0;
+  }
+  
+  .stats {
+    display: flex;
+    gap: 20px;
+    margin: 15px 0;
+  }
+  
+  .number {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .details {
+    color: #657786;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .website {
+    color: #1DA1F2;
+  }

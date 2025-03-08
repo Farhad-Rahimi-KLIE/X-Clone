@@ -1,19 +1,15 @@
 // components/Sidebar.tsx
 'use client'
-import { Home, Search, Bell, Mail, User, Users, Bookmark, MoreHorizontal } from 'lucide-react';
+import { Home, User, Bookmark } from 'lucide-react';
 import jan from '../public/jan.jpg';
 import Image from 'next/image';
-export default function Sidebar() {
+import Link from 'next/link';
+export default function Sidebar({ setCurrentPage }) {
 
   const navItems = [
-    { icon: Home, label: 'Home' },
-    { icon: Search, label: 'Explore' },
-    { icon: Bell, label: 'Notifications' },
-    { icon: Bookmark, label: 'Bookmarks' },
-    { icon: Users, label: 'Communities' },
-    { icon: Mail, label: 'Messages' },
-    { icon: User, label: 'Profile' },
-    { icon: MoreHorizontal, label: 'More' },
+    { icon: Home, label: 'Home', href: '/' },
+    { icon: Bookmark, label: 'Bookmarks', href : '/Bookmarks' },
+    { icon: User, label: 'Profile', href : '/Profile'  },
   ];
 
   // Sample user data
@@ -39,12 +35,15 @@ export default function Sidebar() {
 
         {/* Navigation */}
         {navItems.map((item, index) => (
-          <div
-            key={index}
-            className="flex items-center space-x-4 p-3 hover:bg-gray-500 rounded-full cursor-pointer"
+          <div key={index}>
+          <Link 
+            href={item.href}
+            className="flex items-center space-x-4 p-3 hover:bg-gray-200 dark:hover:bg-gray-900 rounded-full cursor-pointer"
+            onClick={() => setCurrentPage && setCurrentPage(item.href)} // Keep setCurrentPage if you still need it
           >
             <item.icon className="h-6 w-6" />
             <span className="text-xl">{item.label}</span>
+          </Link>
           </div>
         ))}
 

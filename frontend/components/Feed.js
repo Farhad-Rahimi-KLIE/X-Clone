@@ -1,25 +1,63 @@
+'use client'
 import Image from "next/image";
+import Link from "next/link";
 import jan from '../public/jan.jpg';
+import { Smile, 
+  Copy, 
+  CaseUpper, 
+  CaseLower } from 'lucide-react';
+  import { useState } from 'react';
 // components/Feed.tsx
 export default function Feed() {
-    const tweets = [
-      {
-        id: 1,
-        username: 'user1',
-        handle: '@user1',
-        content: 'This is a sample tweet!',
-        time: '2h',
-        profileImage: jan,
-      },
-      {
-        id: 2,
-        username: 'user2',
-        handle: '@user2',
-        content: 'Hello world from Twitter clone!',
-        time: '5h',
-        profileImage: jan,
-      },
-    ];
+  const [tweetText, setTweetText] = useState('');
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(tweetText);
+    alert('Text copied to clipboard!');
+  };
+
+  // Function to convert text to uppercase
+  const handleUppercase = () => {
+    setTweetText(tweetText.toUpperCase());
+  };
+
+  // Function to convert text to lowercase
+  const handleLowercase = () => {
+    setTweetText(tweetText.toLowerCase());
+  };
+
+  // Placeholder function for emoji (you'd typically open an emoji picker)
+  const handleEmoji = () => {
+    // In a real app, this would open an emoji picker
+    setTweetText(tweetText + '😊'); // Example: adds a smiley
+  };
+
+  const [tweets, setTweets] = useState([
+    {
+      id: 1,
+      username: 'farhad rahimi klie',
+      handle: '@johndoe',
+      profileImage: '/jan.jpg',
+      content: 'This is a sample tweet!',
+      time: '2h',
+      comments: 12,
+      retweets: 45,
+      likes: 89,
+      bookmarks: 23,
+    },
+    {
+      id: 2,
+      username: 'Rustam hayat elbigi',
+      handle: '@janesmith',
+      profileImage: '/jan.jpg',
+      content: 'Hello world!',
+      time: '1h',
+      comments: 5,
+      retweets: 10,
+      likes: 25,
+      bookmarks: 8,
+    },
+  ]);
   
     return (
       <div>
@@ -30,19 +68,60 @@ export default function Feed() {
   
         {/* Tweet Input */}
         <div className="p-4 border-b border-gray-800">
-          <textarea
-            className="w-full bg-transparent resize-none outline-none text-xl"
-            placeholder="What's happening?"
-          />
-          <button className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-6 py-2 mt-2">
-            Tweet
+      <textarea
+        className="w-full bg-transparent resize-none outline-none text-xl text-black placeholder-gray-500"
+        placeholder="What's happening?"
+        value={tweetText}
+        onChange={(e) => setTweetText(e.target.value)}
+        rows={3}
+      />
+      <div className="flex justify-between items-center mt-2">
+        {/* Icons Section */}
+        <div className="flex space-x-3">
+          <button 
+            onClick={handleEmoji}
+            className="text-blue-400 hover:text-blue-500"
+            title="Add emoji"
+          >
+            <Smile size={20} />
           </button>
+          <button 
+            onClick={handleCopy}
+            className="text-blue-400 hover:text-blue-500"
+            title="Copy text"
+          >
+            <Copy size={20} />
+          </button>
+          <button 
+            onClick={handleUppercase}
+            className="text-blue-400 hover:text-blue-500"
+            title="Convert to uppercase"
+          >
+            <CaseUpper size={20} />
+          </button>
+          <button 
+            onClick={handleLowercase}
+            className="text-blue-400 hover:text-blue-500"
+            title="Convert to lowercase"
+          >
+            <CaseLower size={20} />
+          </button>
+
         </div>
+        {/* Tweet Button */}
+        <button 
+          className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-6 py-2 font-bold"
+          disabled={!tweetText.trim()} // Disable if no text
+        >
+          Tweet
+        </button>
+      </div>
+    </div>
   
         {/* Tweets */}
         {tweets.map((tweet) => (
-
-          <div key={tweet.id} className="p-4 border-b border-gray-800 hover:bg-gray-700">
+          <Link href={`/tweets/${tweet.id}`} key={tweet.id}>
+          <div className="p-4 border-b border-gray-800 hover:bg-gray-700">
             <div className="flex space-x-3">
               {/* <div className="w-12 h-12 bg-gray-600 rounded-full" /> */}
               <div className="flex-1">
@@ -86,7 +165,7 @@ export default function Feed() {
               </div>
             </div>
           </div>
-
+          </Link>
         ))}
       </div>
     );
