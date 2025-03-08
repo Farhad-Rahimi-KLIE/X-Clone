@@ -5,9 +5,8 @@ import { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
 import Gadgets from '@/components/Gadgets';
 import Feed from '@/components/Feed';
-import Bookmarks from '../app/Bookmarks/page'
-// Placeholder components for other "pages"
-import Profile from './Profile/page'
+import Bookmarks from '../app/Bookmarks/page';
+import Profile from './Profile/page';
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState('/');
@@ -18,7 +17,7 @@ export default function Home() {
         return <Feed />;
       case '/Bookmarks':
         return <Bookmarks />;
-        case '/Profile':
+      case '/Profile':
         return <Profile />;
       default:
         return <Feed />;
@@ -26,11 +25,11 @@ export default function Home() {
   };
 
   return (
-    <div className='flex'>
+    <div className="flex bg-black text-white min-h-screen">
       <div className="w-1/4 sticky top-0 h-screen">
         <Sidebar setCurrentPage={setCurrentPage} />
       </div>
-      <div className="w-2/4 border-x border-gray-200 dark:border-gray-800">
+      <div className="w-2/4 border-x border-gray-800">
         {renderFeedContent()}
       </div>
       <div className="w-1/4 sticky top-0 h-screen">

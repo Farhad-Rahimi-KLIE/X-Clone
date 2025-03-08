@@ -1,15 +1,11 @@
 // app/tweets/[id]/page.js
-'use client'
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-
-// Simulated tweet data (replace with API call in production)
-const getTweetById = (id) => {
+// Simulated async tweet data fetching (replace with real API call in production)
+async function getTweetById(id) {
   const tweets = [
     {
       id: 1,
-      username: 'farhad rahimi klie',
+      username: 'Farhad Rahimi Klie',
       handle: '@johndoe',
       profileImage: '/jan.jpg',
       content: 'This is a sample tweet!',
@@ -21,7 +17,7 @@ const getTweetById = (id) => {
     },
     {
       id: 2,
-      username: 'Rustam hayat elbigi',
+      username: 'Rustam Hayat Elbigi',
       handle: '@janesmith',
       profileImage: '/jan.jpg',
       content: 'Hello world!',
@@ -32,24 +28,23 @@ const getTweetById = (id) => {
       bookmarks: 8,
     },
   ];
+  // Simulate async behavior (e.g., API or DB call)
+  await new Promise((resolve) => setTimeout(resolve, 500)); // Mock delay
   return tweets.find((tweet) => tweet.id === parseInt(id)) || null;
-};
+}
 
-export default function TweetPage({ params }) {
-  const [tweet, setTweet] = useState(null);
-  const router = useRouter();
+export default async function TweetPage({ params }) {
+  const { id } = params; // Access the dynamic [id] param
+  const tweet = await getTweetById(id); // Fetch tweet asynchronously
 
-  useEffect(() => {
-    const fetchedTweet = getTweetById(params.id);
-    if (!fetchedTweet) {
-      router.push('/404'); // Redirect to 404 if tweet not found
-    } else {
-      setTweet(fetchedTweet);
-    }
-  }, [params.id, router]);
-
+  // If no tweet is found, you can redirect or return a not-found state
   if (!tweet) {
-    return <div>Loading...</div>; // Show loading state while fetching
+    // Option 1: Return a simple not-found UI
+    return <div className="p-4 text-white">Tweet not found</div>;
+
+    // Option 2: Trigger Next.js's built-in 404 (uncomment if preferred)
+    // import { notFound } from 'next/navigation';
+    // notFound();
   }
 
   return (

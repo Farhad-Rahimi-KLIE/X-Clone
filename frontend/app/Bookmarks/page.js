@@ -1,7 +1,9 @@
-'use client'
 // pages/bookmarks.js
+'use client';
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Image from 'next/image'; // Import Image component
+import jan from '../../public/jan.jpg'; // Import placeholder image (adjust path as needed)
 import styles from '../Bookmarks/Bookmarks.module.css';
 
 // Bookmark Post Component
@@ -11,10 +13,17 @@ const BookmarkPost = ({
   content, 
   timestamp, 
   likes, 
-  onRemove 
+  onRemove,
+  profileImage = jan // Default to jan.jpg if no image provided
 }) => (
   <div className={styles.postCard}>
-    <div className={styles.userAvatar}></div>
+    <Image
+      src={profileImage}
+      alt={`${username}'s profile`}
+      width={40}
+      height={40}
+      className={styles.userAvatar} // Keep the same styling class
+    />
     <div className={styles.postContent}>
       <div className={styles.postHeader}>
         <span className={styles.username}>{username}</span>
@@ -35,10 +44,9 @@ const BookmarkPost = ({
   </div>
 );
 
-export default function page() {
+export default function Bookmarks() {
   const [bookmarks, setBookmarks] = useState([]);
 
-  // Sample data - replace with API call in production
   useEffect(() => {
     const sampleBookmarks = [
       {
@@ -48,6 +56,7 @@ export default function page() {
         content: 'Just discovered an amazing new framework for building web apps!',
         timestamp: '2h ago',
         likes: 156,
+        profileImage: '/jan.jpg', // Add image path (adjust as needed)
       },
       {
         id: 2,
@@ -56,6 +65,7 @@ export default function page() {
         content: 'The future of AI is looking incredible. What are your thoughts?',
         timestamp: '5h ago',
         likes: 89,
+        profileImage: '/jan.jpg',
       },
       {
         id: 3,
@@ -64,21 +74,20 @@ export default function page() {
         content: 'Sharing my latest project built with Next.js - feedback welcome!',
         timestamp: '1d ago',
         likes: 234,
+        profileImage: '/jan.jpg',
       },
     ];
     setBookmarks(sampleBookmarks);
   }, []);
 
-  // Handle removing a bookmark
   const removeBookmark = (id) => {
     setBookmarks(bookmarks.filter(bookmark => bookmark.id !== id));
   };
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} bg-black text-white`}>
       <Head>
         <title>Bookmarks - X Clone</title>
-        <h1>jan asti</h1>
       </Head>
 
       <main className={styles.main}>
