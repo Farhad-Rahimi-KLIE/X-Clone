@@ -8,7 +8,7 @@ async function getTweetById(id) {
       username: 'Farhad Rahimi Klie',
       handle: '@johndoe',
       profileImage: '/jan.jpg',
-      content: 'This is a sample tweet!',
+      content: 'djffjdkfjlj kfjdfjdkfj fjdkfj kj jlkfb jlkjdfj jdfj jd jkfdjkdjf jdfjdlkf jkdfjkdjf dkfjd jajdfa jdjf akfjdj jdkfa jdjafdjf jf jakjf j   jkafjdj lkj dafj lkjdjf jadf jajfldf kjlkdjfdfjdksjfdkjffdfj',
       time: '2h',
       comments: 12,
       retweets: 45,

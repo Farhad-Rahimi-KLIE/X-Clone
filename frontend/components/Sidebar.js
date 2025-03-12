@@ -57,7 +57,7 @@ export default function Sidebar({ setCurrentPage }) {
 
         <button 
           onClick={() => setIsTweetModalOpen(true)} 
-          className="mt-6 bg-blue-500 hover:bg-blue-600 text-white rounded-full py-3 px-8 text-lg font-bold w-full"
+          className="mt-6 bg-blue-500 hover:bg-blue-600 cursor-pointer text-white rounded-full py-3 px-8 text-lg font-bold w-full"
         >
           Tweet
         </button>
@@ -92,9 +92,9 @@ export default function Sidebar({ setCurrentPage }) {
 
         {/* Logout Modal */}
         {isModalOpen && (
-         <div className="absolute bottom-full left-0 mb-2 w-48 bg-black rounded-lg shadow-lg border border-gray-700 z-10">
+         <div className="absolute cursor-pointer bottom-full left-0 mb-2 w-48 bg-black rounded-lg shadow-lg border border-gray-700 z-10">
          <button 
-           className="w-full text-left px-4 py-2 text-sm text-gray-200 hover:bg-gray-800 rounded-lg flex items-center space-x-2"
+           className="w-full text-left cursor-pointer px-4 py-2 text-sm text-gray-200 hover:bg-gray-800 rounded-lg flex items-center space-x-2"
            onClick={() => {
              console.log('Logout clicked');
              setIsModalOpen(false);
@@ -133,7 +133,7 @@ export default function Sidebar({ setCurrentPage }) {
               <h3 className="text-white font-semibold text-lg">Let's Tweet</h3>
               <button
                 onClick={() => setIsTweetModalOpen(false)}
-                className="text-gray-400 hover:text-white"
+                className="text-gray-400 cursor-pointer hover:text-white"
               >
                 <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -149,7 +149,7 @@ export default function Sidebar({ setCurrentPage }) {
             <div className="flex items-center space-x-3 mt-4 text-gray-400">
               <button
                 onClick={() => setTweetContent((prev) => prev + "😊👍")}
-                className="hover:text-blue-400"
+                className="hover:text-blue-400 cursor-pointer"
                 title="Add Emoji"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -158,7 +158,7 @@ export default function Sidebar({ setCurrentPage }) {
               </button>
               <button
                 onClick={() => navigator.clipboard.writeText(tweetContent)}
-                className="hover:text-blue-400"
+                className="hover:text-blue-400 cursor-pointer"
                 title="Copy Text"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,7 +167,7 @@ export default function Sidebar({ setCurrentPage }) {
               </button>
               <button
                 onClick={() => setTweetContent((prev) => prev.toUpperCase())}
-                className="hover:text-blue-400"
+                className="hover:text-blue-400 cursor-pointer"
                 title="Uppercase"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,7 +176,7 @@ export default function Sidebar({ setCurrentPage }) {
               </button>
               <button
                 onClick={() => setTweetContent((prev) => prev.toLowerCase())}
-                className="hover:text-blue-400"
+                className="hover:text-blue-400 cursor-pointer"
                 title="Lowercase"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,7 +188,7 @@ export default function Sidebar({ setCurrentPage }) {
               <button
                 onClick={handlePost}
                 disabled={!tweetContent.trim()}
-                className={`py-2 px-6 rounded-full font-semibold text-white ${
+                className={`py-2 px-6 rounded-full cursor-pointer font-semibold text-white ${
                   tweetContent.trim()
                     ? "bg-blue-500 hover:bg-blue-600"
                     : "bg-gray-500 cursor-not-allowed"
