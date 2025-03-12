@@ -34,7 +34,7 @@ async function getTweetById(id) {
 }
 
 export default async function TweetPage({ params }) {
-  const { id } = params; // Access the dynamic [id] param
+  const { id } = await params; // Access the dynamic [id] param
   const tweet = await getTweetById(id); // Fetch tweet asynchronously
 
   // If no tweet is found, you can redirect or return a not-found state

@@ -1,70 +1,188 @@
-/* components/Profile.module.css */
+/* Profile.module.css */
 .profileContainer {
-    max-width: 600px;
-    margin: 0 auto;
-    border: 1px solid #e1e8ed;
-    background: white;
-  }
-  
-  .header {
-    position: relative;
-    height: 200px;
-  }
-  
-  .coverPhoto {
-    height: 150px;
-    background: #ccc;
-    width: 100%;
-  }
-  
-  .profilePic {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 4px solid white;
-    position: absolute;
-    bottom: -60px;
-    left: 20px;
-    object-fit: cover;
-  }
-  
-  .userInfo {
-    padding: 20px;
-    padding-top: 60px;
-  }
-  
-  .nameSection {
-    margin-bottom: 15px;
-  }
-  
-  .username {
-    color: #657786;
-    display: block;
-    margin-top: 5px;
-  }
-  
-  .bio {
-    margin: 15px 0;
-  }
-  
-  .stats {
-    display: flex;
-    gap: 20px;
-    margin: 15px 0;
-  }
-  
-  .number {
-    font-weight: bold;
-    margin-right: 5px;
-  }
-  
-  .details {
-    color: #657786;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .website {
-    color: #1DA1F2;
-  }
+  background-color: #000000 !important; /* Override any parent styles */
+  color: #ffffff;
+  max-width: 600px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.bannerContainer {
+  height: 200px;
+  width: 100%;
+  background-color: #000000; /* Fallback */
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header {
+  padding: 12px 15px;
+  position: relative;
+  background-color: #000000 !important;
+  border-bottom: 1px solid rgb(47, 51, 54);
+}
+
+.profilePicContainer {
+  position: absolute;
+  top: -67px;
+  left: 15px;
+}
+
+.profilePic {
+  border-radius: 50%;
+  border: 4px solid #000000;
+}
+
+.headerContent {
+  margin-top: 70px;
+  background-color: #000000;
+}
+
+.nameSection h1 {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 24px;
+}
+
+.username {
+  color: rgb(113, 118, 123);
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.bio {
+  font-size: 15px;
+  line-height: 20px;
+  margin: 12px 0;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: rgb(113, 118, 123);
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.icon {
+  font-size: 16px;
+}
+
+.websiteLink {
+  color: rgb(29, 155, 240);
+  text-decoration: none;
+}
+
+.websiteLink:hover {
+  text-decoration: underline;
+}
+
+.stats {
+  display: flex;
+  gap: 20px;
+  font-size: 15px;
+}
+
+.statItem {
+  color: rgb(113, 118, 123);
+}
+
+.number {
+  color: #ffffff;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.tabs {
+  border-bottom: 1px solid rgb(47, 51, 54);
+  background-color: #000000 !important;
+}
+
+.tabActive {
+  padding: 15px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  border-bottom: 4px solid rgb(29, 155, 240);
+  background-color: #000000;
+}
+
+.postsContainer {
+  border-bottom: 1px solid rgb(47, 51, 54);
+  background-color: #000000 !important;
+}
+
+.post {
+  display: flex;
+  padding: 12px 15px;
+  border-top: 1px solid rgb(47, 51, 54);
+  background-color: #000000 !important;
+}
+
+.post:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.postAvatar {
+  margin-right: 12px;
+}
+
+.postAvatarImg {
+  border-radius: 50%;
+}
+
+.postBody {
+  flex: 1;
+}
+
+.postHeader {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 2px;
+}
+
+.postName {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.postUsername {
+  color: rgb(113, 118, 123);
+  font-size: 15px;
+}
+
+.postDate {
+  color: rgb(113, 118, 123);
+  font-size: 15px;
+}
+
+.postContent {
+  font-size: 15px;
+  line-height: 20px;
+  margin: 0 0 12px 0;
+  word-wrap: break-word;
+}
+
+.postActions {
+  display: flex;
+  gap: 60px;
+  color: rgb(113, 118, 123);
+  font-size: 13px;
+}
+
+.actionItem:hover {
+  color: rgb(29, 155, 240);
+}
