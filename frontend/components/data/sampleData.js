@@ -6,7 +6,7 @@ export const initialUsers = [
   ];
   
   export const initialPosts = [
-    { id: 'p1', userId: '1', content: 'First post!', createdAt: new Date(), likes: 0 },
-    { id: 'p2', userId: '2', content: 'Hello world!', createdAt: new Date(), likes: 0 },
-    { id: 'p3', userId: '3', content: 'Nice day!', createdAt: new Date(), likes: 0 },
+    { id: 1, userId: '1', content: 'First post!', createdAt: new Date(), likes: 0 },
+    { id: 2, userId: '2', content: 'Hello world!', createdAt: new Date(), likes: 0 },
+    { id: 3, userId: '3', content: 'Nice day!', createdAt: new Date(), likes: 0 },
   ];

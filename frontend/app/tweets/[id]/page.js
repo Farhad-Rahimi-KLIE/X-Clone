@@ -2,13 +2,14 @@
 import Image from 'next/image';
 // Simulated async tweet data fetching (replace with real API call in production)
 async function getTweetById(id) {
+  console.log(id);
   const tweets = [
     {
       id: 1,
-      username: 'Farhad Rahimi Klie',
+      username: 'user1',
       handle: '@johndoe',
       profileImage: '/jan.jpg',
-      content: 'djffjdkfjlj kfjdfjdkfj fjdkfj kj jlkfb jlkjdfj jdfj jd jkfdjkdjf jdfjdlkf jkdfjkdjf dkfjd jajdfa jdjf akfjdj jdkfa jdjafdjf jf jakjf j   jkafjdj lkj dafj lkjdjf jadf jajfldf kjlkdjfdfjdksjfdkjffdfj',
+      content: 'First post!',
       time: '2h',
       comments: 12,
       retweets: 45,
@@ -17,7 +18,7 @@ async function getTweetById(id) {
     },
     {
       id: 2,
-      username: 'Rustam Hayat Elbigi',
+      username: 'user2',
       handle: '@janesmith',
       profileImage: '/jan.jpg',
       content: 'Hello world!',
