@@ -1,8 +1,8 @@
-const User = require("../Models/User");
+const User = require("../../Models/User.Models");
 const jwt = require("jsonwebtoken");
 
   const Signup = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, fullname, bio } = req.body;
     if (
       [username, email, password].some((field)=> field?.trim() === "")
     ) {
@@ -20,7 +20,10 @@ const jwt = require("jsonwebtoken");
     const user = await User.create({
       username : username,
       email : email,
-      password : password
+      password : password,
+      fullname : fullname,
+      bio : bio,
+      profilePicture : req.file.filename
     })
 
     const createUser = await User.findById(user._id).select("-password")
@@ -32,6 +35,7 @@ const jwt = require("jsonwebtoken");
     return res.status(200).json({message : "User Registered Successfully.", createUser})
 
   };
+
 
   const Signin = async (req, res) => {
     const {email, password} = req.body;
@@ -77,5 +81,4 @@ const jwt = require("jsonwebtoken");
       res.status(500).json({message : "Internal Server Error", error})
     }
   }
-
 module.exports = {Signup, Signin, loggout};
