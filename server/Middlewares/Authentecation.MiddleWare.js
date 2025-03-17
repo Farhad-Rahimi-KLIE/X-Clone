@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 
 const CheckUserAuthenticated = async (req, res, next)=>{
   const token = req.cookies.token || req.header("Authorization")?.replace("Bearer ", "")
-
     try {
         if (!token) {
           return res.status(401).json({message : "Access denied"})
@@ -15,7 +14,7 @@ const CheckUserAuthenticated = async (req, res, next)=>{
           return res.status(401).json({message : "User Not Found."})
         }
 
-        req.author = user;
+        req.user = user;
         next()
     } catch (error) {
         return res.status(401).json({message : "Invalid Access Token", error})
