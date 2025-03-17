@@ -1,6 +1,8 @@
 const express = require("express");
 const Authentecation = require("../Controller/Authentications/User.Controller");
-const isAdmin = require("../Middlewares/X_Authentication_Middleware");
+const User_Profile = require("../Controller/Profile/profile.details.Controller");
+const AddPost = require("../Controller/create_Post/Post.Controller");
+const authenticated = require("../Middlewares/Authentecation.MiddleWare");
 const router = express.Router();
 const upload = require("../Middlewares/Image");
 
@@ -9,23 +11,11 @@ router.post("/signup",upload.single("profilePicture"), Authentecation.Signup);
 router.post("/signin", Authentecation.Signin);
 router.post("/loggout", Authentecation.loggout);
 
-// // Admin Route Access
-// router.get("/getallusers",isAdmin, AdminRoute.GetUser)
-// router.delete("/delete/:id",isAdmin, AdminRoute.DeleteUser)
+// Profile Route
+router.get("/user/:username",upload.single("profilePicture"), Authentecation.Signup);
 
 // // Post Routes
-// router.post("/create",upload.fields(
-//     [
-//         {
-//             name : "coverImage",
-//             maxCount : 1
-//         },
-//         {
-//             name : "video",
-//             maxCount : 1
-//         }
-//     ]
-// ), Main.AddPost)
+router.post("/create",authenticated, AddPost.Create_Post)
 
 // router.get("/alldisorder", Main.getAllDisorder)
 // router.get("/singledata/:id", Main.SingleData)

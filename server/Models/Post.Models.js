@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const postSchema = new mongoose.Schema({
-  content: { type: String, required: true, trim: true },
+  content: { type: String, required: true },
   author: { type: Schema.Types.ObjectId, ref: 'users', required: true },
   timestamp: { type: Date, default: Date.now },
   viewCount: { type: Number, default: 0 }

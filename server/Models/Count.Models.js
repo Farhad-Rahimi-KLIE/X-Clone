@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const viewSchema = new mongoose.Schema({
   user: { type: Schema.Types.ObjectId, ref: 'users', required: true },
