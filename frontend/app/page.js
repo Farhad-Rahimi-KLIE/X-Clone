@@ -7,6 +7,7 @@ import Gadgets from '@/components/Gadgets';
 import Feed from '@/components/Feed';
 import Bookmarks from '../app/Bookmarks/page';
 import Profile from './Profile/page';
+import Signup from './Signup/page'
 import { initialUsers, initialPosts } from '../components/data/sampleData';
 
 export default function Home() {
@@ -38,6 +39,7 @@ export default function Home() {
       <div className="w-1/4 sticky top-0 h-screen">
         <Gadgets />
       </div>
+      {/* <Signup/> */}
     </div>
   );
 }
