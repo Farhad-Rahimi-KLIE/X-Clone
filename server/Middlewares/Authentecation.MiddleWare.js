@@ -2,7 +2,7 @@ const User = require("../Models/User.Models")
 const jwt = require("jsonwebtoken");
 
 const CheckUserAuthenticated = async (req, res, next)=>{
-  const token = req.cookies.token || req.header("Authorization")?.replace("Bearer ", "")
+  const token = req.cookies.token || req.header("Authorization")?.replace("Bearer ", "");
     try {
         if (!token) {
           return res.status(401).json({message : "Access denied"})

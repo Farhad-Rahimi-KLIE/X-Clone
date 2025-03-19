@@ -17,9 +17,9 @@ router.get("/user/:username",upload.single("profilePicture"), Authentecation.Sig
 // // Post Routes
 router.post("/create",authenticated, AddPost.Create_Post)
 
-// router.get("/alldisorder", Main.getAllDisorder)
-// router.get("/singledata/:id", Main.SingleData)
-// router.get("/search/:key", Main.SearchPost)
-// router.delete("/deleteuser/:id", Main.DeletePost)
+router.get("/all_Post", AddPost.Get_All_Posts);
+router.get("/single_post/:id", authenticated, AddPost.Get_Single_Post);
+router.put("/:id/edit", authenticated, AddPost.Edit_Post);
+router.delete("/:id/delete", authenticated, AddPost.delete_Post);
 
 module.exports = router;
