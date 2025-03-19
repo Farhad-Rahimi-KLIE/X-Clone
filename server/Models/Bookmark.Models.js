@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const bookmarkSchema = new mongoose.Schema({
-  user: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+  author: { type: Schema.Types.ObjectId, ref: 'users', required: true },
   post: { type: Schema.Types.ObjectId, ref: 'posts', required: true },
   timestamp: { type: Date, default: Date.now }
 });

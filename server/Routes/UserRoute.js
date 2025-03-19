@@ -22,5 +22,11 @@ router.get("/single_post/:id", authenticated, AddPost.Get_Single_Post);
 router.put("/:id/edit", authenticated, AddPost.Edit_Post);
 router.delete("/:id/delete", authenticated, AddPost.delete_Post);
 router.post("/:id/like", authenticated, AddPost.Like_Unlike);
+router.post("/:id/dislike", authenticated, AddPost.dislike);
+router.post("/:id/comment", authenticated, AddPost.comment);
+router.post("/:id/bookmark", authenticated, AddPost.bookmark);
+router.post("/:id/unbookmark", authenticated, AddPost.unbookmark);
+router.post("/follow/:id", authenticated, AddPost.follow);
+router.post("/unfollow/:id", authenticated, AddPost.unfollow);
 
 module.exports = router;
