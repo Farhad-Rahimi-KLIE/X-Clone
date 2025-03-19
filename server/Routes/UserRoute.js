@@ -21,5 +21,6 @@ router.get("/all_Post", AddPost.Get_All_Posts);
 router.get("/single_post/:id", authenticated, AddPost.Get_Single_Post);
 router.put("/:id/edit", authenticated, AddPost.Edit_Post);
 router.delete("/:id/delete", authenticated, AddPost.delete_Post);
+router.post("/:id/like", authenticated, AddPost.Like_Unlike);
 
 module.exports = router;

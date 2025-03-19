@@ -2,3 +2,10 @@
 2025-03-19T04:26:52.660Z [WARN]: Post not found or unauthorized for ID: 67d7bce697501a45e5093f50, user: 67d7c196b51d6cde19a94265 
 2025-03-19T04:27:22.437Z [DEBUG]: Attempting to delete post with ID: 67d7bce697501a45e5093f50 by user: 67d7c196b51d6cde19a94265 
 2025-03-19T04:27:22.444Z [WARN]: Post not found or unauthorized for ID: 67d7bce697501a45e5093f50, user: 67d7c196b51d6cde19a94265 
+2025-03-19T04:31:30.436Z [DEBUG]: Attempting to delete post with ID: 67d7bce697501a45e5093f50 by user: 67d7c196b51d6cde19a94265 
+2025-03-19T04:31:30.449Z [WARN]: Post not found or unauthorized for ID: 67d7bce697501a45e5093f50, user: 67d7c196b51d6cde19a94265 
+2025-03-19T04:31:55.058Z [DEBUG]: Attempting to delete post with ID: 67d7bce697501a45e5093f50 by user: 67d7c196b51d6cde19a94265 
+2025-03-19T04:31:55.064Z [WARN]: Post not found or unauthorized for ID: 67d7bce697501a45e5093f50, user: 67d7c196b51d6cde19a94265 
+2025-03-19T04:32:23.421Z [DEBUG]: Attempting to delete post with ID: 67d7bce697501a45e5093f50 by user: 67d7a5912c3a0c686407068f 
+2025-03-19T04:32:23.432Z [DEBUG]: Post found: 67d7bce697501a45e5093f50, proceeding with deletion 
+2025-03-19T04:32:23.454Z [INFO]: Post 67d7bce697501a45e5093f50 and related data deleted successfully by user: 67d7a5912c3a0c686407068f 

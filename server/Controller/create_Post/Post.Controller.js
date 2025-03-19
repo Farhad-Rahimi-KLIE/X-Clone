@@ -162,7 +162,6 @@ const Edit_Post = async (req, res) => {
 const delete_Post = async (req, res)=>{
   const { id } = req.params;
   const userId = req.user._id; // Assumes req.user is set by auth middleware
-
   try {
     // Start logging for debugging
     logger.debug(`Attempting to delete post with ID: ${id} by user: ${userId}`);
@@ -206,4 +205,53 @@ const delete_Post = async (req, res)=>{
   }
 }
 
-module.exports = { Create_Post, Get_Single_Post, Get_All_Posts, Edit_Post, delete_Post };
+const Like_Unlike = async (req, res)=>{
+  const { id } = req.params;
+  const userId = req.user._id; // Assuming req.user is set by auth middleware
+  console.log(userId)
+
+  try {
+    // Check for existing like
+    const existingLike = await Likes.findOne({ author: userId, _id: id });
+    if (existingLike) {
+      return res.status(400).json({
+        message: 'You have already liked this post',
+        error: 'Duplicate like attempt'
+      });
+    }
+
+    // Create and save the new like
+    const like = new Likes({ author: userId, post: id });
+    await like.save();
+
+    // Update the post's likes array
+    const post = await Post.findOne({ _id: id });
+    if (!post) {
+      // Rollback the like if post not found (optional cleanup)
+      await Likes.deleteOne({ _id: like._id });
+      return res.status(404).json({
+        message: 'Post not found',
+        error: 'Invalid post ID'
+      });
+    }
+    
+    post.likes = post.likes || []; // Ensure likes array exists
+    post.likes.push(userId);
+    await post.save();
+
+    // Success response with message
+    res.status(201).json({
+      message: 'Post liked successfully',
+      data: like
+    });
+
+  } catch (error) {
+    // Generic error response with message
+    res.status(400).json({
+      message: 'Failed to like the post',
+      error: error.message || 'An unexpected error occurred'
+    });
+  }
+}
+
+module.exports = { Create_Post, Get_Single_Post, Get_All_Posts, Edit_Post, delete_Post, Like_Unlike };
