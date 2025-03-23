@@ -1,29 +1,24 @@
-// app/signup/page.jsx
 'use client';
-
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useState } from 'react';
+import {useSelector, useDispatch} from 'react-redux'
 
 export default function Signup() {
+  const dispatch = useDispatch()
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const [input, setInput] = useState({
+    username : "",
+    email : "",
+    password : ""
+  })
+
+  const HandleSubmit = (e)=>{
     e.preventDefault();
-    
-    const form = e.currentTarget;
-    const name = form.elements.namedItem('name').value;
-    const emailOrPhone = form.elements.namedItem('emailOrPhone').value;
-    const password = form.elements.namedItem('password').value;
-
-    const formData = {
-      name,
-      emailOrPhone,
-      password
-    };
-
-    console.log(formData);
-    router.push('/home');
-  };
+    dispatch(registerUser(input))
+    router.push('/Signin');
+  }
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center">
@@ -34,13 +29,15 @@ export default function Signup() {
           </svg>
         </div>
 
-        <h1 className="text-3xl font-bold text-white mb-8">Create your account</h1>
+        <h1 className="text-3xl font-bold text-white mb-8 ml-11">Create your account</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <input
               type="text"
-              name="name"
+              name='username'
+              value={input.username}
+              onChange={(e)=> setInput({...input, [e.target.name] : e.target.value})}
               placeholder="Name"
               className="w-full p-3 bg-transparent border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
               maxLength={50}
@@ -51,7 +48,9 @@ export default function Signup() {
           <div>
             <input
               type="text"
-              name="emailOrPhone"
+              name='email'
+              value={input.email}
+               onChange={(e)=> setInput({...input, [e.target.name] : e.target.value})}
               placeholder="Phone number or email"
               className="w-full p-3 bg-transparent border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
               required
@@ -61,7 +60,9 @@ export default function Signup() {
           <div>
             <input
               type="password"
-              name="password"
+              name='password'
+              value={input.password}
+              onChange={(e)=> setInput({...input, [e.target.name] : e.target.value})}
               placeholder="Password"
               className="w-full p-3 bg-transparent border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
               required
@@ -70,6 +71,7 @@ export default function Signup() {
 
           <button
             type="submit"
+            nClick={HandleSubmit}
             className="w-full py-3 bg-blue-500 text-white font-bold rounded-full hover:bg-blue-600 transition-colors"
           >
             Next

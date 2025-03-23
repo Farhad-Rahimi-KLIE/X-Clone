@@ -1,20 +1,30 @@
 // app/page.js
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
 import Gadgets from '@/components/Gadgets';
 import Feed from '@/components/Feed';
 import Bookmarks from '../app/Bookmarks/page';
 import Profile from './Profile/page';
-import Signup from './Signup/page'
 import { initialUsers, initialPosts } from '../components/data/sampleData';
 
 export default function Home() {
+  const router = useRouter();
   const [users] = useState(initialUsers);
   const [posts] = useState(initialPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
   const [currentPage, setCurrentPage] = useState('/');
 
+  // Check if the user is authenticated
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Adjust based on your auth method
+    if (!token) {
+      router.push('/Signup');
+    }
+  }, [router]);
+
+  // Function to render feed content based on currentPage
   const renderFeedContent = () => {
     switch (currentPage) {
       case '/':
@@ -39,7 +49,6 @@ export default function Home() {
       <div className="w-1/4 sticky top-0 h-screen">
         <Gadgets />
       </div>
-      {/* <Signup/> */}
     </div>
   );
 }

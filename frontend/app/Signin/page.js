@@ -20,7 +20,8 @@ export default function Signin() {
     };
 
     console.log(formData);
-    router.push('/home');
+    localStorage.setItem('token', 'some-token'); // Set token (adjust based on your auth system)
+    router.push('/');
   };
 
   return (
@@ -32,13 +33,12 @@ export default function Signin() {
           </svg>
         </div>
 
-        <h1 className="text-3xl font-bold text-white mb-8">Create your account</h1>
+        <h1 className="text-3xl font-bold text-white mb-8 ml-11">Go to your Account</h1>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <input
               type="text"
-              name="emailOrPhone"
               placeholder="Phone number or email"
               className="w-full p-3 bg-transparent border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
               required
