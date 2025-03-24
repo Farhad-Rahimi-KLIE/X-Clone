@@ -5,17 +5,24 @@ import jan from '../public/jan.jpg';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from "react";
+import {createPost} from '../lib/features/MainData/maindata.Slice'
+import { useDispatch } from 'react-redux'
 
 export default function Sidebar({ setCurrentPage }) {
+  const dispatch = useDispatch();
   const [isTweetModalOpen, setIsTweetModalOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tweetContent, setTweetContent] = useState("");
 
-  const handlePost = async () => {
-    console.log("Posting tweet:", tweetContent);
-    setTweetContent("");
-    setIsTweetModalOpen(false);
-  };
+  const [input, setInput] = useState({
+    content : ""
+    })
+
+
+ const create_Post = () => {
+      dispatch(createPost(input));
+      setInput({ content: "" }); // Optional: Clear input after posting
+      setIsTweetModalOpen(false);  // Close modal after posting
+    };
 
   const navItems = [
     { icon: Home, label: 'Home', href: '/' },
@@ -141,14 +148,15 @@ export default function Sidebar({ setCurrentPage }) {
               </button>
             </div>
             <textarea
-              value={tweetContent}
-              onChange={(e) => setTweetContent(e.target.value)}
+             value={input.content}
+             onChange={(e)=> setInput({...input, [e.target.name] : e.target.value})}
               className="w-full h-40 p-3 bg-gray-700 text-white rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="What's happening?"
+              name='content'
             />
             <div className="flex items-center space-x-3 mt-4 text-gray-400">
               <button
-                onClick={() => setTweetContent((prev) => prev + "😊👍")}
+               onClick={() => setInput({ ...input, content: input.content + "😊👍" })}
                 className="hover:text-blue-400 cursor-pointer"
                 title="Add Emoji"
               >
@@ -157,7 +165,7 @@ export default function Sidebar({ setCurrentPage }) {
                 </svg>
               </button>
               <button
-                onClick={() => navigator.clipboard.writeText(tweetContent)}
+                onClick={() => navigator.clipboard.writeText(input.content)}
                 className="hover:text-blue-400 cursor-pointer"
                 title="Copy Text"
               >
@@ -166,7 +174,7 @@ export default function Sidebar({ setCurrentPage }) {
                 </svg>
               </button>
               <button
-                onClick={() => setTweetContent((prev) => prev.toUpperCase())}
+                 onClick={() => setInput({ ...input, content: input.content.toUpperCase() })}
                 className="hover:text-blue-400 cursor-pointer"
                 title="Uppercase"
               >
@@ -175,7 +183,7 @@ export default function Sidebar({ setCurrentPage }) {
                 </svg>
               </button>
               <button
-                onClick={() => setTweetContent((prev) => prev.toLowerCase())}
+               onClick={() => setInput({ ...input, content: input.content.toLowerCase() })}
                 className="hover:text-blue-400 cursor-pointer"
                 title="Lowercase"
               >
@@ -186,10 +194,10 @@ export default function Sidebar({ setCurrentPage }) {
             </div>
             <div className="flex justify-end mt-4">
               <button
-                onClick={handlePost}
-                disabled={!tweetContent.trim()}
+                onClick={create_Post}
+                disabled={!input.content.trim()}
                 className={`py-2 px-6 rounded-full cursor-pointer font-semibold text-white ${
-                  tweetContent.trim()
+                  input.content.trim()
                     ? "bg-blue-500 hover:bg-blue-600"
                     : "bg-gray-500 cursor-not-allowed"
                 }`}
