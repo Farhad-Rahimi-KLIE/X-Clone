@@ -12,7 +12,7 @@ router.post("/signin", Authentecation.Signin);
 router.post("/loggout", Authentecation.loggout);
 
 // Profile Route
-router.get("/user/:username",upload.single("profilePicture"), Authentecation.Signup);
+// router.get("/user/:username",upload.single("profilePicture"), Authentecation.Signup);
 
 // // Post Routes
 router.post("/create",authenticated, AddPost.Create_Post)

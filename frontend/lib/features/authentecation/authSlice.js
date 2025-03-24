@@ -4,7 +4,7 @@ import axios from 'axios';
 // Thunks
 export const registerUser = createAsyncThunk('auth/registerUser',async (payload, { rejectWithValue }) => {
         try {
-            const response = await axios.post('http://localhost:8000/register',payload);
+            const response = await axios.post('http://localhost:8000/signup',payload);
             return response.data.createUser;
         } catch (error) {
             return rejectWithValue(error.response.data.createUser);
@@ -14,7 +14,7 @@ export const registerUser = createAsyncThunk('auth/registerUser',async (payload,
 
 export const loginUser = createAsyncThunk('auth/loginUser',async (payload, { rejectWithValue }) => {
         try {
-            const response = await axios.post('http://localhost:8000/login', payload);
+            const response = await axios.post('http://localhost:8000/signin', payload);
             if (typeof window !== 'undefined') {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('user', response.data.user);
@@ -25,6 +25,7 @@ export const loginUser = createAsyncThunk('auth/loginUser',async (payload, { rej
         }
     }
 );
+console.log(loginUser)
 
 export const logoutUser = createAsyncThunk('auth/logoutUser',async (_, { getState, rejectWithValue }) => {
         const { token } = getState().auth;

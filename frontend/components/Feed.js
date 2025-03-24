@@ -4,8 +4,11 @@ import Link from "next/link";
 import { Smile, Copy, CaseUpper, CaseLower } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import {createPost} from '../lib/features/MainData/maindata.Slice'
+import { useDispatch } from 'react-redux'
 
 export default function Feed({ posts, users }) {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   // Ensure we have posts and users before rendering
@@ -13,24 +16,32 @@ export default function Feed({ posts, users }) {
     return <div>Loading...</div>;
   }
 
-  const [tweetText, setTweetText] = useState('');
+   const [input, setInput] = useState({
+    content : ""
+    })
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(tweetText);
-    alert('Text copied to clipboard!');
-  };
-
-  const handleUppercase = () => {
-    setTweetText(tweetText.toUpperCase());
-  };
-
-  const handleLowercase = () => {
-    setTweetText(tweetText.toLowerCase());
-  };
-
-  const handleEmoji = () => {
-    setTweetText(tweetText + '😊');
-  };
+    const handleCopy = () => {
+      navigator.clipboard.writeText(input.content);
+      alert('Text copied to clipboard!');
+    };
+  
+    const handleUppercase = () => {
+      setInput({ ...input, content: input.content.toUpperCase() });
+    };
+  
+    const handleLowercase = () => {
+      setInput({ ...input, content: input.content.toLowerCase() });
+    };
+  
+    const handleEmoji = () => {
+      setInput({ ...input, content: input.content + '😊' });
+    };
+  
+    const create_Post = () => {
+      dispatch(createPost(input));
+      setInput({ content: "" }); // Optional: Clear input after posting
+    };
+  
 
   return (
     <div className="bg-black text-white">
@@ -44,8 +55,9 @@ export default function Feed({ posts, users }) {
         <textarea
           className="w-full bg-transparent resize-none outline-none text-xl text-white placeholder-gray-500"
           placeholder="What's happening?"
-          value={tweetText}
-          onChange={(e) => setTweetText(e.target.value)}
+          name="content"
+          value={input.content}
+          onChange={(e)=> setInput({...input, [e.target.name] : e.target.value})}
           rows={3}
         />
         <div className="flex justify-between items-center mt-2">
@@ -80,9 +92,10 @@ export default function Feed({ posts, users }) {
             </button>
           </div>
           <button 
-            disabled={!tweetText.trim()}
+            disabled={!input.content.trim()}
+            onClick={create_Post}
             className={`py-2 px-6 rounded-full font-semibold cursor-pointer text-white ${
-              tweetText.trim()
+              input.content.trim()
                 ? "bg-blue-500 hover:bg-blue-600"
                 : "bg-gray-500 cursor-not-allowed"
             }`}

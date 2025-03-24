@@ -1,28 +1,24 @@
 // app/signup/page.jsx
 'use client';
-
+import {useSelector, useDispatch} from 'react-redux'
 import { useRouter } from 'next/navigation';
+import {loginUser} from '../../lib/features/authentecation/authSlice'
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Signin() {
+  const dispatch = useDispatch()
   const router = useRouter();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    const form = e.currentTarget;
-    const emailOrPhone = form.elements.namedItem('emailOrPhone').value;
-    const password = form.elements.namedItem('password').value;
-
-    const formData = {
-      emailOrPhone,
-      password
-    };
-
-    console.log(formData);
-    localStorage.setItem('token', 'some-token'); // Set token (adjust based on your auth system)
-    router.push('/');
-  };
+  const [input, setInput] = useState({
+    email : "",
+    password : ""
+  })
+   const HandleSubmit = (e)=>{
+          e.preventDefault();
+          dispatch(loginUser(input))
+          router.push('/');
+        }
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center">
@@ -35,11 +31,14 @@ export default function Signin() {
 
         <h1 className="text-3xl font-bold text-white mb-8 ml-11">Go to your Account</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form className="space-y-6">
           <div>
             <input
               type="text"
-              placeholder="Phone number or email"
+              name="email"
+              value={input.email}
+              onChange={(e)=> setInput({...input, [e.target.name] : e.target.value})}
+              placeholder="Enter Your email"
               className="w-full p-3 bg-transparent border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
               required
             />
@@ -49,7 +48,9 @@ export default function Signin() {
             <input
               type="password"
               name="password"
-              placeholder="Password"
+              value={input.password}
+              onChange={(e)=> setInput({...input, [e.target.name] : e.target.value})}
+              placeholder="Enter Your Password"
               className="w-full p-3 bg-transparent border border-gray-600 rounded text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
               required
             />
@@ -57,6 +58,7 @@ export default function Signin() {
 
           <button
             type="submit"
+            onClick={HandleSubmit}
             className="w-full py-3 bg-blue-500 text-white font-bold rounded-full hover:bg-blue-600 transition-colors"
           >
             Next
