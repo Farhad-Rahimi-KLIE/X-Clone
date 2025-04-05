@@ -18,6 +18,20 @@ export const createPost = createAsyncThunk('posts/createPost',async (payload, { 
   }
 );
 
+export const getUserProfile = createAsyncThunk(
+  'posts/getUserProfile',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${API_URL}/user/${payload}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const getSinglePost = createAsyncThunk(
   'posts/getSinglePost',
   async (id, { rejectWithValue }) => {
@@ -36,7 +50,7 @@ export const getAllPosts = createAsyncThunk(
   'posts/getAllPosts',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/posts`, {
+      const response = await axios.get(`${API_URL}/all_Post`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       return response.data.posts; // Assuming your API returns { message, posts }
@@ -178,12 +192,13 @@ export const unfollowUser = createAsyncThunk(
 
 // Post Slice
 const postSlice = createSlice({
-  name: 'posts',
+  name: 'post',
   initialState: {
     posts: [],
     singlePost: null,
     bookmarks: [], // Array to store bookmarked post IDs or bookmark objects
     following: [], // Array to store followed user IDs or follow objects
+    profile: null,
     loading: false,
     error: null,
   },
@@ -202,6 +217,20 @@ const postSlice = createSlice({
       state.posts.unshift(action.payload.AddPost);
     });
     builder.addCase(createPost.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload.message;
+    });
+
+     // Get User Profile
+     builder.addCase(getUserProfile.pending, (state) => {
+      state.loading = true;
+      state.profile = null; // Reset profile while fetching
+    });
+    builder.addCase(getUserProfile.fulfilled, (state, action) => {
+      state.loading = false;
+      state.profile = action.payload; // Store user and their posts
+    });
+    builder.addCase(getUserProfile.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
     });

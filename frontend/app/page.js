@@ -1,4 +1,3 @@
-// app/page.js
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,37 +5,68 @@ import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
 import Gadgets from '@/components/Gadgets';
 import Feed from '@/components/Feed';
-import Bookmarks from '../app/Bookmarks/page';
-import Profile from './Profile/page';
-import { initialUsers, initialPosts } from '../components/data/sampleData';
+import Bookmarks from '@/app/Bookmarks/page';
+import Profile from '@/app/Profile/page';
 
 export default function Home() {
   const router = useRouter();
-  const [users] = useState(initialUsers);
-  const [posts] = useState(initialPosts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
   const [currentPage, setCurrentPage] = useState('/');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null); // Error can be string or null
 
-  // Check if the user is authenticated
   useEffect(() => {
-    const token = localStorage.getItem('token'); // Adjust based on your auth method
-    if (!token) {
-      router.push('/Signup');
-    }
+    const checkAuth = () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          router.push('/Signup');
+        }
+      } catch (err) {
+        console.error('Authentication check failed:', err);
+        setError('Failed to verify authentication');
+        router.push('/Signup');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
   }, [router]);
 
-  // Function to render feed content based on currentPage
   const renderFeedContent = () => {
-    switch (currentPage) {
-      case '/':
-        return <Feed posts={posts} users={users} />;
-      case '/Bookmarks':
-        return <Bookmarks />;
-      case '/Profile':
-        return <Profile />;
-      default:
-        return <Feed />;
+    try {
+      switch (currentPage) {
+        case '/':
+          return <Feed />;
+        case '/Bookmarks':
+          return <Bookmarks />;
+        case '/Profile':
+          return <Profile />;
+        default:
+          return <Feed />;
+      }
+    } catch (err) {
+      // Ensure we return valid JSX even in error case
+      return <div>Error loading content: {err.message || 'Unknown error'}</div>;
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex bg-black text-white min-h-screen justify-center items-center">
+        Loading...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex bg-black text-white min-h-screen justify-center items-center">
+        {/* Ensure error is rendered as a string */}
+        {typeof error === 'string' ? error : 'An unexpected error occurred'}
+      </div>
+    );
+  }
 
   return (
     <div className="flex bg-black text-white min-h-screen">

@@ -2,46 +2,67 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Smile, Copy, CaseUpper, CaseLower } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import {createPost} from '../lib/features/MainData/maindata.Slice'
-import { useDispatch } from 'react-redux'
+import { createPost, getAllPosts } from '../lib/features/MainData/maindata.Slice';
+import { getAllUsers } from '../lib/features/authentecation/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function Feed({ posts, users }) {
+export default function Feed() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const { posts, loading: postsLoading, error: postsError } = useSelector((state) => state.post || {});
+  const { users, loading: usersLoading, error: usersError } = useSelector((state) => state.auth || {});
+  
+  const [input, setInput] = useState({ content: "" });
 
-  // Ensure we have posts and users before rendering
-  if (!posts || !users) {
+  useEffect(() => {
+    dispatch(getAllPosts());
+    dispatch(getAllUsers());
+  }, [dispatch]);
+
+  console.log("posts", posts);
+  console.log("users", users?.users);
+
+  // Handle loading state
+  if (postsLoading || usersLoading) {
     return <div>Loading...</div>;
   }
 
-   const [input, setInput] = useState({
-    content : ""
-    })
+  // Handle error state (ensure we render a string, not an object)
+  if (postsError || usersError) {
+    const errorMessage = typeof postsError === 'string' ? postsError :
+                        postsError?.message || typeof usersError === 'string' ? usersError :
+                        usersError?.message || 'An error occurred';
+    return <div>Error: {errorMessage}</div>;
+  }
 
-    const handleCopy = () => {
-      navigator.clipboard.writeText(input.content);
-      alert('Text copied to clipboard!');
-    };
-  
-    const handleUppercase = () => {
-      setInput({ ...input, content: input.content.toUpperCase() });
-    };
-  
-    const handleLowercase = () => {
-      setInput({ ...input, content: input.content.toLowerCase() });
-    };
-  
-    const handleEmoji = () => {
-      setInput({ ...input, content: input.content + '😊' });
-    };
-  
-    const create_Post = () => {
-      dispatch(createPost(input));
-      setInput({ content: "" }); // Optional: Clear input after posting
-    };
-  
+  // Handle no data or invalid data
+  if (!posts || !Array.isArray(posts) || !users || !Array.isArray(users?.users)) {
+    return <div>No valid data available</div>;
+  }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(input.content);
+    alert('Text copied to clipboard!');
+  };
+
+  const handleUppercase = () => {
+    setInput({ ...input, content: input.content.toUpperCase() });
+  };
+
+  const handleLowercase = () => {
+    setInput({ ...input, content: input.content.toLowerCase() });
+  };
+
+  const handleEmoji = () => {
+    setInput({ ...input, content: input.content + '😊' });
+  };
+
+  const create_Post = () => {
+    dispatch(createPost(input));
+    setInput({ content: "" });
+  };
 
   return (
     <div className="bg-black text-white">
@@ -57,7 +78,7 @@ export default function Feed({ posts, users }) {
           placeholder="What's happening?"
           name="content"
           value={input.content}
-          onChange={(e)=> setInput({...input, [e.target.name] : e.target.value})}
+          onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })}
           rows={3}
         />
         <div className="flex justify-between items-center mt-2">
@@ -107,26 +128,27 @@ export default function Feed({ posts, users }) {
 
       {/* Tweets */}
       {posts.map((post) => {
-        const user = users.find((u) => u.id === post.userId);
+        const user = users.users.find((u) => u._id === post.author?._id);
+        console.log("this is user", user);
 
         const handleProfileClick = (e) => {
           e.preventDefault();
           e.stopPropagation();
-          if (user?.id) {
-            router.push(`/profiles/${user.id}`);
+          if (user?._id) {
+            router.push(`/profiles/${user._id}`);
           }
         };
 
         return (
-          <Link href={`/tweets/${post.id}`} key={post.id}>
+          <Link href={`/tweets/${post._id}`} key={post._id}>
             <div className="p-4 border-b border-gray-800 hover:bg-gray-900">
               <div className="flex space-x-3">
                 <div className="flex-1">
                   <div className="flex items-center space-x-1">
                     <Image 
-                      width={32}
-                      height={32}
-                      src={user?.profileImage || '/default-profile.jpg'}
+                      width={32} 
+                      height={32} 
+                      src={`http://localhost:8000/${post.author?.profilePicture || '/default-avatar.png'}`}
                       alt={`${user?.username || 'User'}'s profile`}
                       className="w-8 h-8 rounded-full object-cover cursor-pointer"
                       onClick={handleProfileClick}
@@ -135,12 +157,12 @@ export default function Feed({ posts, users }) {
                       onClick={handleProfileClick}
                       className="font-bold hover:underline cursor-pointer"
                     >
-                      {user?.username || 'Unknown'}
+                      {post.author?.fullname || 'Unknown'}
                     </span>
                     <span className="text-gray-500">
-                      @{user?.handle || 'unknown'}
+                      @{post.author?.username || 'unknown'}
                     </span>
-                    <span className="text-gray-500">· {post.time || 'N/A'}</span>
+                    <span className="text-gray-500">· {post.timestamp || 'N/A'}</span>
                   </div>
                   <p className="mt-1">{post.content || 'No content'}</p>
                   <div className="flex justify-between mt-3 text-gray-500 max-w-full">

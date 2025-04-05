@@ -10,9 +10,10 @@ const upload = require("../Middlewares/Image");
 router.post("/signup",upload.single("profilePicture"), Authentecation.Signup);
 router.post("/signin", Authentecation.Signin);
 router.post("/loggout", Authentecation.loggout);
+router.get("/allusers",authenticated, Authentecation.get_all_users);
 
 // Profile Route
-// router.get("/user/:username",upload.single("profilePicture"), Authentecation.Signup);
+router.get("/user/:id", authenticated, AddPost.Get_User_Profile);
 
 // // Post Routes
 router.post("/create",authenticated, AddPost.Create_Post)

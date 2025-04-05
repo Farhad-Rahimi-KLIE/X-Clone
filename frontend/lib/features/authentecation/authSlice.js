@@ -25,7 +25,6 @@ export const loginUser = createAsyncThunk('auth/loginUser',async (payload, { rej
         }
     }
 );
-console.log(loginUser)
 
 export const logoutUser = createAsyncThunk('auth/logoutUser',async (_, { getState, rejectWithValue }) => {
         const { token } = getState().auth;
@@ -44,11 +43,24 @@ export const logoutUser = createAsyncThunk('auth/logoutUser',async (_, { getStat
     }
 );
 
+export const getAllUsers = createAsyncThunk('auth/getAllUsers', async (_, { getState, rejectWithValue }) => {
+    try {
+        const response = await axios.get('http://localhost:8000/allusers', {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+          });
+        return response.data; // Assuming your backend returns users in a "data" field
+    } catch (error) {
+        return rejectWithValue(error.response.data);
+    }
+});
+
 // Slice
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        user: null,
+        user: [],
+        users: [],         // Add new state for all users
+        token: null,
         loading: false,
         error: null,
     },
@@ -59,6 +71,7 @@ const authSlice = createSlice({
         clearAuth: (state) => {
             state.user = null;
             state.token = null;
+            state.users = []; // Clear users list on logout
             state.error = null;
         },
     },
@@ -82,7 +95,7 @@ const authSlice = createSlice({
             })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload.user;
+                state.user = action.payload;
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;
@@ -98,6 +111,18 @@ const authSlice = createSlice({
                 state.token = null;
             })
             .addCase(logoutUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(getAllUsers.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getAllUsers.fulfilled, (state, action) => {
+                state.loading = false;
+                state.users = action.payload; // Store the list of users
+            })
+            .addCase(getAllUsers.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             });

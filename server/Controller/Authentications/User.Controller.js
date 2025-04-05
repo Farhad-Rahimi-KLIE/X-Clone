@@ -81,4 +81,14 @@ const jwt = require("jsonwebtoken");
       res.status(500).json({message : "Internal Server Error", error})
     }
   }
-module.exports = {Signup, Signin, loggout};
+
+  const get_all_users = async (req, res)=>{
+    try {
+      // Assuming you have a User model
+      const users = await User.find(); // Fetch all users from your database
+      res.status(200).json({ success: true, users });
+  } catch (error) {
+      res.status(500).json({ success: false, message: "Error fetching users", error });
+  }
+  }
+module.exports = {Signup, Signin, loggout, get_all_users};

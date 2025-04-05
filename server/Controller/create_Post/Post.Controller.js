@@ -35,6 +35,43 @@ const Create_Post = async (req, res) => {
     }
 };
 
+const Get_User_Profile = async (req, res)=>{
+  try {
+    const { id } = req.params; // User ID from URL
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid User ID format" });
+    }
+
+    // Fetch user data
+    const user = await User.findById(id)
+      .select('username name profilePicture followers following')
+      .lean();
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Fetch user's posts
+    const posts = await Post.find({ author: id })
+      .populate('author', 'username name profilePicture')
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Return profile data
+    res.json({
+      user: {
+        ...user,
+        followersCount: Array.isArray(user.followers) ? user.followers.length : 0,
+        followingCount: Array.isArray(user.following) ? user.following.length : 0,
+      },
+      posts,
+    });
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
+  }
+}
 
 const Get_Single_Post = async (req, res) => {
   try {
@@ -81,7 +118,7 @@ const Get_Single_Post = async (req, res) => {
 const Get_All_Posts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate('author', 'username name profilePicture')
+      .populate('author', 'username name profilePicture fullname')
       .sort({ createdAt: -1 }) // Sort by creation date, newest first
     
     res.json({"message" : "Single post fetch it.", posts});
@@ -496,4 +533,4 @@ const unfollow = async (req, res)=>{
   }
 }
 
-module.exports = { Create_Post, Get_Single_Post, Get_All_Posts, Edit_Post, delete_Post, Like_Unlike, dislike, comment, bookmark, unbookmark, follow, unfollow };
+module.exports = { Create_Post, Get_User_Profile, Get_Single_Post, Get_All_Posts, Edit_Post, delete_Post, Like_Unlike, dislike, comment, bookmark, unbookmark, follow, unfollow };
