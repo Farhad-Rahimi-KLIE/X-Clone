@@ -6,7 +6,7 @@ import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/';
 
 // Async Thunks for API calls
-export const createPost = createAsyncThunk('posts/createPost',async (payload, { rejectWithValue }) => {
+export const createPost = createAsyncThunk('maindata/createPost',async (payload, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${API_URL}/create`, payload , {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -33,10 +33,10 @@ export const getUserProfile = createAsyncThunk(
 );
 
 export const getSinglePost = createAsyncThunk(
-  'posts/getSinglePost',
+  'maindata/getSinglePost',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/posts/${id}`, {
+      const response = await axios.get(`${API_URL}/single_post/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       return response.data;

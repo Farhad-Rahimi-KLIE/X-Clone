@@ -45,7 +45,7 @@ const Get_User_Profile = async (req, res)=>{
 
     // Fetch user data
     const user = await User.findById(id)
-      .select('username name profilePicture followers following')
+      .select('username fullname profilePicture followers following')
       .lean();
 
     if (!user) {
@@ -54,7 +54,7 @@ const Get_User_Profile = async (req, res)=>{
 
     // Fetch user's posts
     const posts = await Post.find({ author: id })
-      .populate('author', 'username name profilePicture')
+      .populate('author', 'username fullname profilePicture')
       .sort({ createdAt: -1 })
       .lean();
 
@@ -84,7 +84,7 @@ const Get_Single_Post = async (req, res) => {
 
     // Note: find() returns an array, use findOne() for single document
     const post = await Post.findOne({ _id: id })
-      .populate('author', 'username name profilePicture');
+      .populate('author', 'username fullname profilePicture');
     console.log(post)
     if (!post) {
       throw new Error('Post not found');

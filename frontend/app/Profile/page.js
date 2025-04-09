@@ -16,7 +16,7 @@ const page = () => {
   const { profile, loading, error } = useSelector((state) => state.maindata || { profile: null, loading: false, error: null });
   const { user, posts } = profile || {};
 
-  console.log("user author",user.followersCount)
+  console.log(posts)
 
   useEffect(() => {
   if (typeof window !== "undefined") { // Check if running in the browser
@@ -82,12 +82,12 @@ if (!profile) {
           </div>
 
           <div className={styles.stats}>
-            {/* <span className={styles.statItem}>
-              <span className={styles.number}>{user.followingCount}</span> Following
+            <span className={styles.statItem}>
+              <span className={styles.number}>{user?.followingCount}</span> Following
             </span>
             <span className={styles.statItem}>
-              <span className={styles.number}>{user.followersCount}</span> Followers
-            </span> */}
+              <span className={styles.number}>{user?.followersCount}</span> Followers
+            </span>
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@ if (!profile) {
             </div>
             <div className={styles.postBody}>
               <div className={styles.postHeader}>
-                {/* <span className={styles.postName}>{users.name}</span> */}
+                <span className={styles.postName}>{post.author.fullname}</span>
                 <span className={styles.postUsername}>@{post.author.username}</span>
                 <span className={styles.postDate}>· {post.timestamp}</span>
               </div>
