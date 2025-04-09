@@ -11,11 +11,9 @@ export default function Profile() {
   console.log("Profile ID:", id);
   const dispatch = useDispatch();
   const { users, loading: usersLoading, error: usersError, user } = useSelector((state) => state.auth || {});
-  const { posts, loading: postsLoading, error: postsError } = useSelector((state) => state.post || {});
+  const { posts, loading: postsLoading, error: postsError } = useSelector((state) => state.maindata || {});
   const [isFollowing, setIsFollowing] = useState(false);
 
-  console.log("Users from Redux:", users);
-  console.log("Current user", user);
 
   useEffect(() => {
     dispatch(getAllUsers());

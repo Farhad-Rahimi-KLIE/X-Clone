@@ -91,4 +91,5 @@ const jwt = require("jsonwebtoken");
       res.status(500).json({ success: false, message: "Error fetching users", error });
   }
   }
+
 module.exports = {Signup, Signin, loggout, get_all_users};

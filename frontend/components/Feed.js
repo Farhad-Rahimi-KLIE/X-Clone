@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function Feed() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { posts, loading: postsLoading, error: postsError } = useSelector((state) => state.post || {});
+  const { posts, loading: postsLoading, error: postsError } = useSelector((state) => state.maindata || {});
   const { users, loading: usersLoading, error: usersError } = useSelector((state) => state.auth || {});
   
   const [input, setInput] = useState({ content: "" });
@@ -20,9 +20,6 @@ export default function Feed() {
     dispatch(getAllPosts());
     dispatch(getAllUsers());
   }, [dispatch]);
-
-  console.log("posts", posts);
-  console.log("users", users?.users);
 
   // Handle loading state
   if (postsLoading || usersLoading) {
@@ -129,7 +126,6 @@ export default function Feed() {
       {/* Tweets */}
       {posts.map((post) => {
         const user = users.users.find((u) => u._id === post.author?._id);
-        console.log("this is user", user);
 
         const handleProfileClick = (e) => {
           e.preventDefault();

@@ -19,7 +19,7 @@ export const createPost = createAsyncThunk('posts/createPost',async (payload, { 
 );
 
 export const getUserProfile = createAsyncThunk(
-  'posts/getUserProfile',
+  'maindata/getUserProfile',
   async (payload, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${API_URL}/user/${payload}`, {
@@ -191,8 +191,8 @@ export const unfollowUser = createAsyncThunk(
 );
 
 // Post Slice
-const postSlice = createSlice({
-  name: 'post',
+const maindataSlice  = createSlice({
+  name: 'maindata',
   initialState: {
     posts: [],
     singlePost: null,
@@ -202,11 +202,7 @@ const postSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {
-    clearError: (state) => {
-      state.error = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     // Create Post
     builder.addCase(createPost.pending, (state) => {
@@ -225,14 +221,15 @@ const postSlice = createSlice({
      builder.addCase(getUserProfile.pending, (state) => {
       state.loading = true;
       state.profile = null; // Reset profile while fetching
+      state.error = null; // Clear previous errors
     });
     builder.addCase(getUserProfile.fulfilled, (state, action) => {
       state.loading = false;
-      state.profile = action.payload; // Store user and their posts
+      state.profile = action.payload; // { user: {...}, posts: [...] }
     });
     builder.addCase(getUserProfile.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload.message;
+      state.error = action.payload?.message || "Failed to fetch profile";
     });
 
     // Get Single Post
@@ -359,5 +356,5 @@ const postSlice = createSlice({
   },
 });
 
-export const { clearError } = postSlice.actions;
-export default postSlice.reducer;
+// export const { clearError } = postSlice.actions;
+export default maindataSlice.reducer;

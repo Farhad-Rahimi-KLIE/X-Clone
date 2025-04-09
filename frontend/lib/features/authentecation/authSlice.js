@@ -17,7 +17,7 @@ export const loginUser = createAsyncThunk('auth/loginUser',async (payload, { rej
             const response = await axios.post('http://localhost:8000/signin', payload);
             if (typeof window !== 'undefined') {
                 localStorage.setItem('token', response.data.token);
-                localStorage.setItem('user', response.data.user);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
               }
             return response.data.user;
         } catch (error) {
@@ -64,17 +64,7 @@ const authSlice = createSlice({
         loading: false,
         error: null,
     },
-    reducers: {
-        clearError: (state) => {
-            state.error = null;
-        },
-        clearAuth: (state) => {
-            state.user = null;
-            state.token = null;
-            state.users = []; // Clear users list on logout
-            state.error = null;
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(registerUser.pending, (state) => {
@@ -121,10 +111,6 @@ const authSlice = createSlice({
             .addCase(getAllUsers.fulfilled, (state, action) => {
                 state.loading = false;
                 state.users = action.payload; // Store the list of users
-            })
-            .addCase(getAllUsers.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload;
             });
     },
 });
